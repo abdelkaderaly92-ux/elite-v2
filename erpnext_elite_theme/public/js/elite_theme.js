@@ -143,12 +143,18 @@
         refresh: function (frm) {
           document.body.classList.add("elite-sales-studio");
           document.body.classList.toggle("elite-sales-invoice", doctype === "Sales Invoice");
-          ensureEliteSalesRail(frm);
+          removeEliteSalesRail();
           frm.add_custom_button("معاينة قبل الحفظ", function () {
             openElitePrintPreview(frm);
           }).addClass("btn-primary");
         }
       });
+    });
+  }
+
+  function removeEliteSalesRail() {
+    document.querySelectorAll(".elite-sales-rail").forEach(function (rail) {
+      rail.remove();
     });
   }
 
@@ -249,6 +255,7 @@
     ensureEliteFloatingCreate();
     bindEliteShortcuts();
     installEliteSalesStudio();
+    removeEliteSalesRail();
 
     document.querySelectorAll(".navbar .dropdown-menu, .awesomplete > ul").forEach(function (menu) {
       menu.setAttribute("dir", "rtl");

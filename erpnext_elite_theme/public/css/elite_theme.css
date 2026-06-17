@@ -1100,6 +1100,57 @@ body.elite-ar-theme {
   animation: elitePageIn .22s ease-out;
 }
 
+/* Stability reset for live ERPNext forms.
+   The full redesigned layouts are kept in preview files; live forms keep Frappe's native structure. */
+body.elite-ar-theme .navbar::after {
+  content: none !important;
+  display: none !important;
+}
+
+body.elite-ar-theme .page-actions,
+body.elite-ar-theme .custom-actions {
+  position: static !important;
+  top: auto !important;
+  z-index: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body.elite-ar-theme .form-layout {
+  display: block !important;
+}
+
+body.elite-ar-theme.elite-sales-studio .form-page,
+body.elite-ar-theme.elite-sales-studio .layout-main-section-wrapper,
+body.elite-ar-theme.elite-sales-studio .page-body .container {
+  display: block !important;
+  grid-template-columns: none !important;
+}
+
+body.elite-ar-theme.elite-sales-studio .elite-sales-rail {
+  display: none !important;
+}
+
+body.elite-ar-theme.elite-sales-studio .form-sidebar,
+body.elite-ar-theme.elite-sales-studio .layout-side-section {
+  position: static !important;
+  top: auto !important;
+  min-height: auto !important;
+  order: initial !important;
+  background: #fbfcfe !important;
+  border: 1px solid var(--elite-border) !important;
+  color: var(--elite-ink) !important;
+  box-shadow: none !important;
+}
+
+body.elite-ar-theme.elite-sales-studio .form-section,
+body.elite-ar-theme.elite-sales-studio .form-dashboard-section {
+  width: auto !important;
+  max-width: none !important;
+}
+
 @keyframes elitePageIn {
   from { opacity: .92; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
@@ -1166,6 +1217,32 @@ body.elite-ar-theme {
   body.elite-ar-theme .elite-print-meta {
     grid-template-columns: 1fr;
   }
+}
+
+/* Final safety guard: never let preview-style layout rules reshape live ERPNext forms. */
+body.elite-ar-theme .navbar::after {
+  content: none !important;
+  display: none !important;
+}
+
+body.elite-ar-theme.elite-sales-studio .form-page,
+body.elite-ar-theme.elite-sales-studio .layout-main-section-wrapper,
+body.elite-ar-theme.elite-sales-studio .page-body .container {
+  display: block !important;
+  grid-template-columns: none !important;
+}
+
+body.elite-ar-theme.elite-sales-studio .elite-sales-rail {
+  display: none !important;
+}
+
+body.elite-ar-theme .page-actions,
+body.elite-ar-theme .custom-actions {
+  position: static !important;
+  top: auto !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 
