@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elite Quotation Studio</title>
+  <link rel="stylesheet" href="../erpnext_elite_theme/public/css/elite_theme.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f5f8fc; color: var(--elite-ink); font-family: var(--font-stack); }
+    button, input, select { font: inherit; }
+    .quote-shell { min-height: 100vh; display: grid; grid-template-columns: 1fr 260px; }
+    .quote-side { background: linear-gradient(180deg, #073878, #0759ba); color: #fff; padding: 18px; }
+    .quote-side img { width: 190px; display: block; margin: 0 auto 24px; background: #fff; border-radius: 8px; padding: 8px; }
+    .side-link { min-height: 48px; display: flex; align-items: center; gap: 10px; border-radius: 8px; padding: 0 14px; color: rgba(255,255,255,.86); font-weight: 800; }
+    .side-link.active { background: rgba(255,255,255,.12); color: #fff; }
+    .quote-main { padding: 18px 22px 28px; }
+    .topbar { height: 58px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #dce7f5; margin: -18px -22px 20px; padding: 0 22px; background: rgba(255,255,255,.86); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 4; }
+    .tabs { display: flex; gap: 22px; color: #526176; font-weight: 800; }
+    .tabs .active { color: var(--elite-primary); border-bottom: 3px solid var(--elite-primary); padding-bottom: 18px; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn { min-height: 38px; border: 1px solid #dce7f5; border-radius: 7px; background: #fff; color: #344054; font-weight: 800; padding: 0 14px; }
+    .btn.primary { background: var(--elite-primary); color: #fff; border-color: var(--elite-primary); }
+    .crumb { color: #7a8494; font-weight: 800; font-size: 13px; }
+    .title-row { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-bottom: 18px; }
+    h1 { margin: 0; color: #132238; font-size: 34px; font-weight: 800; }
+    .status { border-radius: 999px; padding: 5px 12px; background: #eaf7ef; color: #168447; font-weight: 800; }
+    .grid { display: grid; grid-template-columns: minmax(360px, .52fr) minmax(620px, 1fr); gap: 14px; }
+    .stack { display: grid; gap: 14px; }
+    .card { background: #fff; border: 1px solid #dce7f5; border-radius: 8px; box-shadow: 0 14px 34px rgba(20,58,111,.08); padding: 16px; }
+    .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; color: var(--elite-primary-dark); font-weight: 800; }
+    .summary-line { display: flex; justify-content: space-between; padding: 8px 0; color: #526176; font-weight: 800; }
+    .summary-total { border-radius: 8px; background: #eef5ff; padding: 14px; color: var(--elite-primary); font-size: 20px; font-weight: 800; }
+    .approval { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
+    .step { display: grid; justify-items: center; gap: 6px; color: #526176; font-size: 12px; font-weight: 800; }
+    .bubble { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; border: 1px solid #cfe0f5; background: #fff; color: var(--elite-primary); }
+    .step.active .bubble { background: #eef5ff; border-color: var(--elite-primary); box-shadow: 0 0 0 4px #e6f0ff; }
+    .sales-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .flow-col { min-height: 92px; border: 1px solid #dce7f5; border-radius: 8px; background: #fbfdff; padding: 8px; color: #526176; font-size: 12px; font-weight: 800; }
+    .mini-doc { margin-top: 7px; border: 1px solid #cfe0f5; border-radius: 7px; background: #fff; padding: 7px; color: var(--elite-primary); }
+    .info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .field { min-height: 62px; border: 1px solid #dce7f5; border-radius: 8px; background: #fbfdff; padding: 11px; }
+    .field span { display: block; color: #7a8494; font-size: 12px; font-weight: 800; }
+    .field strong { display: block; margin-top: 6px; font-weight: 800; }
+    .table-tools { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .table-tools input { width: 280px; border: 1px solid #dce7f5; border-radius: 7px; padding: 8px 12px; }
+    table { width: 100%; border-collapse: collapse; overflow: hidden; border: 1px solid #dce7f5; border-radius: 8px; }
+    th, td { padding: 13px 12px; border-bottom: 1px solid #dce7f5; text-align: right; font-weight: 800; }
+    th { background: #f3f7fc; color: #526176; font-size: 12px; }
+    td { color: #263a54; }
+    .bottom-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 14px; }
+    .activity { display: grid; gap: 11px; color: #526176; font-size: 12px; font-weight: 800; }
+    .activity div { display: flex; gap: 8px; align-items: center; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--elite-primary); }
+    .print-preview { margin-top: 14px; display: flex; justify-content: flex-end; }
+    @media (max-width: 1100px) { .quote-shell, .grid, .bottom-grid { grid-template-columns: 1fr; } .quote-side { display: none; } .approval, .sales-flow { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+  <div class="quote-shell">
+    <main class="quote-main">
+      <div class="topbar">
+        <nav class="tabs"><span>الرئيسية</span><span class="active">المبيعات</span><span>المشتريات</span><span>المخزون</span><span>المالية</span><span>التقارير</span></nav>
+        <div class="actions"><button class="btn primary">حفظ</button><button class="btn">إرسال للعميل</button><button class="btn">طباعة</button><button class="btn">تحويل إلى أمر بيع</button></div>
+      </div>
+      <div class="crumb">المبيعات › عرض سعر › QUO-2024-00045</div>
+      <div class="title-row"><h1>عرض السعر</h1><span class="status">مسودة</span></div>
+      <section class="grid">
+        <div class="stack">
+          <div class="card">
+            <div class="card-head">ملخص العرض</div>
+            <div class="summary-line"><span>إجمالي المبلغ الفرعي</span><strong>95,000.00 ﷼</strong></div>
+            <div class="summary-line"><span>الخصم (5%)</span><strong style="color:#dc2626">4,750.00 ﷼</strong></div>
+            <div class="summary-line"><span>ضريبة القيمة المضافة</span><strong>13,537.50 ﷼</strong></div>
+            <div class="summary-total">الإجمالي الكلي<br>103,787.50 ﷼</div>
+          </div>
+          <div class="card">
+            <div class="card-head">مسار الموافقة</div>
+            <div class="approval"><div class="step"><span class="bubble">1</span><span>مسودة</span></div><div class="step"><span class="bubble">2</span><span>بانتظار الإدارة</span></div><div class="step active"><span class="bubble">3</span><span>بانتظار الموافقة</span></div><div class="step"><span class="bubble">4</span><span>معتمد</span></div></div>
+          </div>
+          <div class="card">
+            <div class="card-head">متابعة المبيعات</div>
+            <div class="sales-flow"><div class="flow-col">جديد<div class="mini-doc">QUO-2024-00046</div></div><div class="flow-col">تواصل<div class="mini-doc">QUO-2024-00045</div></div><div class="flow-col">عرض مقدم<div class="mini-doc">95,800 ﷼</div></div><div class="flow-col">مغلق<div class="mini-doc">78,200 ﷼</div></div></div>
+          </div>
+        </div>
+        <div class="stack">
+          <div class="card">
+            <div class="card-head">معلومات العرض</div>
+            <div class="info-grid">
+              <div class="field"><span>رقم عرض السعر</span><strong>QUO-2024-00045</strong></div>
+              <div class="field"><span>تاريخ العرض</span><strong>2024-05-20</strong></div>
+              <div class="field"><span>العميل</span><strong>شركة النخبة للتجارة</strong></div>
+              <div class="field"><span>مندوب المبيعات</span><strong>فهد العتيبي</strong></div>
+              <div class="field"><span>البريد الإلكتروني</span><strong>khalid@elite-trade.sa</strong></div>
+              <div class="field"><span>العملة</span><strong>﷼ - الريال السعودي</strong></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">المواد والخدمات</div>
+            <div class="table-tools"><input placeholder="البحث في البنود..."><button class="btn">إضافة بند</button></div>
+            <table>
+              <thead><tr><th>#</th><th>الصنف / الخدمة</th><th>الكمية</th><th>سعر الوحدة</th><th>الخصم</th><th>المبلغ</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>تركيب نظام كاميرات مراقبة</td><td>5</td><td>10,000.00</td><td>5%</td><td>47,500.00</td></tr>
+                <tr><td>2</td><td>جهاز تسجيل NVR 16 قناة</td><td>2</td><td>3,750.00</td><td>0%</td><td>7,500.00</td></tr>
+                <tr><td>3</td><td>هارد ديسك 4TB</td><td>4</td><td>1,250.00</td><td>0%</td><td>5,000.00</td></tr>
+                <tr><td>4</td><td>أعمال تمديد وكابلات</td><td>1</td><td>3,000.00</td><td>0%</td><td>3,000.00</td></tr>
+              </tbody>
+            </table>
+            <div class="print-preview"><button class="btn primary">معاينة الطباعة قبل الحفظ</button></div>
+          </div>
+        </div>
+      </section>
+      <section class="bottom-grid">
+        <div class="card"><div class="card-head">الملاحظات الداخلية</div><p>يجب التأكد من توفر الأجهزة قبل تاريخ التسليم.</p></div>
+        <div class="card"><div class="card-head">الشروط والأحكام</div><p>الأسعار لا تشمل ضريبة القيمة المضافة. مدة التسليم 7 إلى 10 أيام عمل.</p></div>
+        <div class="card"><div class="card-head">المرفقات</div><p>.pdf 245 KB</p><p>.xlsx 120 KB</p></div>
+        <div class="card"><div class="card-head">النشاط</div><div class="activity"><div><i class="dot"></i>تم إنشاء عرض السعر</div><div><i class="dot"></i>تم تحديث البنود</div><div><i class="dot"></i>تمت إضافة شرط دفع</div></div></div>
+      </section>
+    </main>
+    <aside class="quote-side"><img src="elite-control-logo.png" alt="Elite Control"><div class="side-link active">المبيعات</div><div class="side-link">لوحة المعلومات</div><div class="side-link">فرص البيع</div><div class="side-link">عروض الأسعار</div><div class="side-link">أوامر البيع</div><div class="side-link">فواتير البيع</div><div class="side-link">العملاء</div><div class="side-link">التقارير</div></aside>
+  </div>
+</body>
+</html>

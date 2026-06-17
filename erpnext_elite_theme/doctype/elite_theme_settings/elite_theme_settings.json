@@ -1,0 +1,82 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-06-12 00:00:00.000000",
+  "doctype": "DocType",
+  "editable_grid": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "brand_section",
+    "primary_color",
+    "primary_dark_color",
+    "secondary_color",
+    "background_color",
+    "logo_url",
+    "font_stack"
+  ],
+  "fields": [
+    {
+      "fieldname": "brand_section",
+      "fieldtype": "Section Break",
+      "label": "Brand Settings"
+    },
+    {
+      "default": "#174fa6",
+      "fieldname": "primary_color",
+      "fieldtype": "Color",
+      "label": "Primary Color"
+    },
+    {
+      "default": "#123f86",
+      "fieldname": "primary_dark_color",
+      "fieldtype": "Color",
+      "label": "Primary Dark Color"
+    },
+    {
+      "default": "#2d6cdf",
+      "fieldname": "secondary_color",
+      "fieldtype": "Color",
+      "label": "Secondary Color"
+    },
+    {
+      "default": "#f5f7fb",
+      "fieldname": "background_color",
+      "fieldtype": "Color",
+      "label": "Background Color"
+    },
+    {
+      "default": "/assets/erpnext_elite_theme/images/elite-control-logo.png",
+      "fieldname": "logo_url",
+      "fieldtype": "Data",
+      "label": "Logo URL"
+    },
+    {
+      "default": "\"Tajawal\", \"Inter\", \"Segoe UI\", Tahoma, Arial, sans-serif",
+      "fieldname": "font_stack",
+      "fieldtype": "Data",
+      "label": "Font Stack"
+    }
+  ],
+  "issingle": 1,
+  "links": [],
+  "modified": "2026-06-12 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "ERPNext Elite Theme",
+  "name": "Elite Theme Settings",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "print": 1,
+      "read": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
+}

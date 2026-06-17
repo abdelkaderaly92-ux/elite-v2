@@ -1,0 +1,14 @@
+[project]
+name = "erpnext_elite_theme"
+version = "0.1.0"
+description = "Professional Elite Control Arabic RTL theme for ERPNext/Frappe"
+authors = [{ name = "Elite Control" }]
+requires-python = ">=3.10"
+readme = "README.md"
+dependencies = []
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+
