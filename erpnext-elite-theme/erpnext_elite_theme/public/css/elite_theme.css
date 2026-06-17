@@ -1245,49 +1245,4 @@ body.elite-ar-theme .custom-actions {
   box-shadow: none !important;
 }
 
-/* Emergency live-form reset. Keep ERPNext/Frappe document layout native. */
-body.elite-ar-theme .form-page,
-body.elite-ar-theme .form-layout,
-body.elite-ar-theme .form-layout .form-section,
-body.elite-ar-theme .form-section,
-body.elite-ar-theme .section-body,
-body.elite-ar-theme .form-column,
-body.elite-ar-theme .frappe-control,
-body.elite-ar-theme .form-group,
-body.elite-ar-theme .layout-main-section-wrapper,
-body.elite-ar-theme .layout-main-section,
-body.elite-ar-theme .form-tabs-list,
-body.elite-ar-theme .form-dashboard,
-body.elite-ar-theme .form-timeline,
-body.elite-ar-theme .form-sidebar,
-body.elite-ar-theme .layout-side-section {
-  float: revert !important;
-  display: revert !important;
-  grid-template-columns: revert !important;
-  grid-column: revert !important;
-  grid-row: revert !important;
-  width: revert !important;
-  max-width: revert !important;
-  min-width: revert !important;
-  min-height: revert !important;
-  margin: revert !important;
-  padding: revert !important;
-  order: revert !important;
-  position: revert !important;
-  top: revert !important;
-  left: revert !important;
-  right: revert !important;
-  align-self: revert !important;
-}
-
-body.elite-ar-theme .form-layout .form-section,
-body.elite-ar-theme .form-dashboard,
-body.elite-ar-theme .form-timeline,
-body.elite-ar-theme .timeline,
-body.elite-ar-theme .comment-box,
-body.elite-ar-theme .form-sidebar,
-body.elite-ar-theme .layout-side-section {
-  box-shadow: none !important;
-}
-
 

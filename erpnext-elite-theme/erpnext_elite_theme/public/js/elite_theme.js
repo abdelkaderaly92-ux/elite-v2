@@ -141,8 +141,8 @@
     ["Quotation", "Sales Invoice"].forEach(function (doctype) {
       frappe.ui.form.on(doctype, {
         refresh: function (frm) {
-          document.body.classList.remove("elite-sales-studio");
-          document.body.classList.remove("elite-sales-invoice");
+          document.body.classList.add("elite-sales-studio");
+          document.body.classList.toggle("elite-sales-invoice", doctype === "Sales Invoice");
           removeEliteSalesRail();
           frm.add_custom_button("معاينة قبل الحفظ", function () {
             openElitePrintPreview(frm);
@@ -249,8 +249,6 @@
 
     html.setAttribute("dir", "rtl");
     body.classList.add("elite-ar-theme");
-    body.classList.remove("elite-sales-studio");
-    body.classList.remove("elite-sales-invoice");
     applySavedEliteTokens();
     replaceSaudiCurrencySymbol();
     ensureEliteCommandPalette();
