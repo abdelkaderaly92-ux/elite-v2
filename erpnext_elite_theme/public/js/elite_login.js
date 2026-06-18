@@ -1,4 +1,7 @@
 (function () {
+  var attempts = 0;
+  var maxAttempts = 30;
+
   function isLoginRoute() {
     var path = window.location.pathname || "";
     return path === "/login" || path.indexOf("/login") > -1;
@@ -31,14 +34,33 @@
     });
   }
 
-  function buildLoginBrand() {
-    if (!isLoginRoute() || document.querySelector(".elite-login-shell")) return;
+  function findLoginContent() {
+    var loginContent = document.querySelector(".login-content");
+    if (loginContent) return loginContent;
 
+    var loginPanel = document.querySelector(".for-login");
+    if (loginPanel && loginPanel.closest(".page-card")) {
+      return loginPanel.closest(".page-card");
+    }
+
+    return loginPanel || document.querySelector("form[action*='login']");
+  }
+
+  function buildLoginBrand() {
+    if (!isLoginRoute() || document.querySelector(".elite-login-shell")) return true;
+
+    var content = findLoginContent();
+    if (!content || content === document.body || content === document.documentElement) {
+      return false;
+    }
+
+    document.documentElement.setAttribute("dir", "rtl");
     document.body.classList.add("elite-login-page");
     applySavedTokens();
 
-    var content = document.querySelector(".login-content") || document.querySelector(".page-card") || document.body;
-    var parent = content.parentNode || document.body;
+    var parent = content.parentNode;
+    if (!parent) return false;
+
     var shell = document.createElement("div");
     shell.className = "elite-login-shell";
     shell.innerHTML = [
@@ -58,9 +80,23 @@
       '</section>',
       '<section class="elite-login-form-panel"></section>'
     ].join("");
+
     parent.insertBefore(shell, content);
     shell.querySelector(".elite-login-form-panel").appendChild(content);
+    return true;
   }
 
-  document.addEventListener("DOMContentLoaded", buildLoginBrand);
+  function tryBuildLoginBrand() {
+    if (buildLoginBrand()) return;
+    attempts += 1;
+    if (attempts < maxAttempts) {
+      window.setTimeout(tryBuildLoginBrand, 150);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", tryBuildLoginBrand);
+
+  if (document.readyState === "interactive" || document.readyState === "complete") {
+    tryBuildLoginBrand();
+  }
 })();

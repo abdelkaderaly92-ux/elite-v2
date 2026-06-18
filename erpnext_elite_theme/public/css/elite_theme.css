@@ -681,35 +681,6 @@ body.elite-ar-theme .page-head {
   background: rgba(245, 247, 251, .86);
 }
 
-body.elite-ar-theme .page-actions,
-body.elite-ar-theme .custom-actions {
-  position: sticky;
-  top: 56px;
-  z-index: 19;
-  padding: 8px;
-  border: 1px solid rgba(217, 226, 236, .76);
-  border-radius: var(--elite-radius);
-  background: rgba(255, 255, 255, .9);
-  box-shadow: 0 10px 26px rgba(15, 23, 42, .06);
-}
-
-body.elite-ar-theme .form-layout .form-section,
-body.elite-ar-theme .form-dashboard,
-body.elite-ar-theme .form-timeline,
-body.elite-ar-theme .timeline,
-body.elite-ar-theme .comment-box {
-  background: #fff;
-  border: 1px solid var(--elite-border);
-  border-radius: var(--elite-radius);
-  box-shadow: 0 8px 22px rgba(15, 23, 42, .045);
-  padding: 14px;
-}
-
-body.elite-ar-theme .form-layout {
-  display: grid;
-  gap: 12px;
-}
-
 body.elite-ar-theme .form-dashboard {
   margin-bottom: 12px;
 }
@@ -740,18 +711,6 @@ body.elite-ar-theme .report-footer {
 body.elite-ar-theme .navbar .container,
 body.elite-ar-theme .navbar .container-fluid {
   gap: 12px;
-}
-
-body.elite-ar-theme .navbar::after {
-  content: "لوحة القيادة  المبيعات  الحسابات  المخازن  التقارير";
-  display: inline-flex;
-  align-items: center;
-  gap: 18px;
-  color: #526176;
-  font-weight: 800;
-  font-size: 13px;
-  white-space: nowrap;
-  margin-inline-start: 18px;
 }
 
 body.elite-ar-theme .form-sidebar .sidebar-section,
@@ -841,116 +800,6 @@ body.elite-ar-theme .currency,
 body.elite-ar-theme [data-fieldtype="Currency"],
 body.elite-ar-theme .text-right {
   font-variant-numeric: tabular-nums;
-}
-
-body.elite-ar-theme.elite-sales-studio .form-page {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, .38fr);
-  gap: 14px;
-}
-
-body.elite-ar-theme.elite-sales-studio .layout-main-section-wrapper,
-body.elite-ar-theme.elite-sales-studio .page-body .container {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 210px;
-  gap: 14px;
-}
-
-body.elite-ar-theme.elite-sales-studio .elite-sales-rail {
-  position: sticky;
-  top: 132px;
-  align-self: start;
-  min-height: 520px;
-  border: 1px solid var(--elite-border);
-  border-radius: var(--elite-radius);
-  background: #fff;
-  box-shadow: 0 12px 28px rgba(15, 23, 42, .055);
-  padding: 14px 10px;
-}
-
-body.elite-ar-theme.elite-sales-studio .elite-sales-rail-title {
-  color: var(--elite-primary-dark);
-  font-size: 18px;
-  font-weight: 800;
-  padding: 8px 10px 14px;
-  border-bottom: 1px solid var(--elite-border);
-  margin-bottom: 8px;
-}
-
-body.elite-ar-theme.elite-sales-studio .elite-sales-rail a {
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  border-inline-start: 2px solid transparent;
-  border-radius: 7px;
-  color: #526176;
-  font-weight: 800;
-  padding: 0 10px;
-}
-
-body.elite-ar-theme.elite-sales-studio .elite-sales-rail a.active {
-  border-inline-start-color: var(--elite-primary);
-  background: #eef5ff;
-  color: var(--elite-primary);
-}
-
-body.elite-ar-theme.elite-sales-studio .form-dashboard,
-body.elite-ar-theme.elite-sales-studio .form-tabs-list,
-body.elite-ar-theme.elite-sales-studio .form-layout {
-  min-width: 0;
-}
-
-body.elite-ar-theme.elite-sales-studio .form-sidebar,
-body.elite-ar-theme.elite-sales-studio .layout-side-section {
-  order: 2;
-  position: sticky;
-  top: 126px;
-  align-self: start;
-  min-height: 420px;
-  background: #fff;
-  border: 1px solid var(--elite-border);
-  color: var(--elite-ink);
-  box-shadow: 0 12px 28px rgba(15, 23, 42, .055);
-}
-
-body.elite-ar-theme.elite-sales-studio .form-sidebar *,
-body.elite-ar-theme.elite-sales-studio .layout-side-section * {
-  color: inherit;
-}
-
-body.elite-ar-theme.elite-sales-studio .form-dashboard-section {
-  border-radius: var(--elite-radius);
-  background: #fff;
-}
-
-body.elite-ar-theme.elite-sales-studio .form-control,
-body.elite-ar-theme.elite-sales-studio .input-with-feedback,
-body.elite-ar-theme.elite-sales-studio .awesomplete input {
-  min-height: 38px;
-  background: #fbfdff;
-}
-
-body.elite-ar-theme.elite-sales-studio .grid-body,
-body.elite-ar-theme.elite-sales-studio .form-grid {
-  border: 1px solid var(--elite-border);
-  border-radius: var(--elite-radius);
-  overflow: hidden;
-}
-
-body.elite-ar-theme.elite-sales-studio .grid-heading-row,
-body.elite-ar-theme.elite-sales-studio .grid-row {
-  border-radius: 7px;
-}
-
-body.elite-ar-theme.elite-sales-studio .grid-heading-row {
-  background: #f3f7fc;
-  color: var(--elite-primary-dark);
-  font-weight: 800;
-}
-
-body.elite-ar-theme.elite-sales-studio .form-section .section-head {
-  color: var(--elite-primary-dark);
-  font-size: 15px;
 }
 
 body.elite-ar-theme .elite-print-preview {
@@ -1100,57 +949,6 @@ body.elite-ar-theme {
   animation: elitePageIn .22s ease-out;
 }
 
-/* Stability reset for live ERPNext forms.
-   The full redesigned layouts are kept in preview files; live forms keep Frappe's native structure. */
-body.elite-ar-theme .navbar::after {
-  content: none !important;
-  display: none !important;
-}
-
-body.elite-ar-theme .page-actions,
-body.elite-ar-theme .custom-actions {
-  position: static !important;
-  top: auto !important;
-  z-index: auto !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-body.elite-ar-theme .form-layout {
-  display: block !important;
-}
-
-body.elite-ar-theme.elite-sales-studio .form-page,
-body.elite-ar-theme.elite-sales-studio .layout-main-section-wrapper,
-body.elite-ar-theme.elite-sales-studio .page-body .container {
-  display: block !important;
-  grid-template-columns: none !important;
-}
-
-body.elite-ar-theme.elite-sales-studio .elite-sales-rail {
-  display: none !important;
-}
-
-body.elite-ar-theme.elite-sales-studio .form-sidebar,
-body.elite-ar-theme.elite-sales-studio .layout-side-section {
-  position: static !important;
-  top: auto !important;
-  min-height: auto !important;
-  order: initial !important;
-  background: #fbfcfe !important;
-  border: 1px solid var(--elite-border) !important;
-  color: var(--elite-ink) !important;
-  box-shadow: none !important;
-}
-
-body.elite-ar-theme.elite-sales-studio .form-section,
-body.elite-ar-theme.elite-sales-studio .form-dashboard-section {
-  width: auto !important;
-  max-width: none !important;
-}
-
 @keyframes elitePageIn {
   from { opacity: .92; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
@@ -1180,38 +978,9 @@ body.elite-ar-theme.elite-sales-studio .form-dashboard-section {
     padding-bottom: 68px;
   }
 
-  body.elite-ar-theme .navbar::after {
-    content: "الرئيسية  إنشاء  تقارير  حسابي";
-    position: fixed;
-    inset: auto 12px 10px;
-    z-index: 1001;
-    justify-content: space-around;
-    min-height: 52px;
-    border: 1px solid var(--elite-border);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, .94);
-    box-shadow: 0 14px 34px rgba(15, 23, 42, .16);
-    margin: 0;
-  }
-
   body.elite-ar-theme .elite-floating-create {
     left: 18px;
     bottom: 76px;
-  }
-
-  body.elite-ar-theme.elite-sales-studio .form-page {
-    grid-template-columns: 1fr;
-  }
-
-  body.elite-ar-theme.elite-sales-studio .layout-main-section-wrapper,
-  body.elite-ar-theme.elite-sales-studio .page-body .container {
-    grid-template-columns: 1fr;
-  }
-
-  body.elite-ar-theme.elite-sales-studio .elite-sales-rail {
-    position: static;
-    min-height: auto;
-    order: -1;
   }
 
   body.elite-ar-theme .elite-print-meta {
@@ -1219,20 +988,10 @@ body.elite-ar-theme.elite-sales-studio .form-dashboard-section {
   }
 }
 
-/* Final safety guard: never let preview-style layout rules reshape live ERPNext forms. */
+/* Live ERPNext form guard.
+   Keep Sales Invoice and Quotation on the native Frappe layout; previews use their own files. */
 body.elite-ar-theme .navbar::after {
   content: none !important;
-  display: none !important;
-}
-
-body.elite-ar-theme.elite-sales-studio .form-page,
-body.elite-ar-theme.elite-sales-studio .layout-main-section-wrapper,
-body.elite-ar-theme.elite-sales-studio .page-body .container {
-  display: block !important;
-  grid-template-columns: none !important;
-}
-
-body.elite-ar-theme.elite-sales-studio .elite-sales-rail {
   display: none !important;
 }
 
@@ -1240,54 +999,77 @@ body.elite-ar-theme .page-actions,
 body.elite-ar-theme .custom-actions {
   position: static !important;
   top: auto !important;
+  z-index: auto !important;
+  padding: 0 !important;
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
 
-/* Emergency live-form reset. Keep ERPNext/Frappe document layout native. */
+body.elite-ar-theme .form-layout {
+  display: block !important;
+  gap: 0 !important;
+}
+
 body.elite-ar-theme .form-page,
-body.elite-ar-theme .form-layout,
-body.elite-ar-theme .form-layout .form-section,
-body.elite-ar-theme .form-section,
-body.elite-ar-theme .section-body,
-body.elite-ar-theme .form-column,
-body.elite-ar-theme .frappe-control,
-body.elite-ar-theme .form-group,
 body.elite-ar-theme .layout-main-section-wrapper,
-body.elite-ar-theme .layout-main-section,
-body.elite-ar-theme .form-tabs-list,
-body.elite-ar-theme .form-dashboard,
-body.elite-ar-theme .form-timeline,
-body.elite-ar-theme .form-sidebar,
-body.elite-ar-theme .layout-side-section {
-  float: revert !important;
-  display: revert !important;
-  grid-template-columns: revert !important;
-  grid-column: revert !important;
-  grid-row: revert !important;
-  width: revert !important;
-  max-width: revert !important;
-  min-width: revert !important;
-  min-height: revert !important;
-  margin: revert !important;
-  padding: revert !important;
-  order: revert !important;
-  position: revert !important;
-  top: revert !important;
-  left: revert !important;
-  right: revert !important;
-  align-self: revert !important;
+body.elite-ar-theme .layout-main-section {
+  display: block !important;
+  grid-template-columns: none !important;
 }
 
 body.elite-ar-theme .form-layout .form-section,
-body.elite-ar-theme .form-dashboard,
-body.elite-ar-theme .form-timeline,
-body.elite-ar-theme .timeline,
-body.elite-ar-theme .comment-box,
-body.elite-ar-theme .form-sidebar,
-body.elite-ar-theme .layout-side-section {
-  box-shadow: none !important;
+body.elite-ar-theme .section-body,
+body.elite-ar-theme .form-column,
+body.elite-ar-theme .frappe-control,
+body.elite-ar-theme .form-group {
+  float: none !important;
+  display: block !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  order: initial !important;
+  position: relative !important;
+}
+
+body.elite-ar-theme .form-column.col-sm-12,
+body.elite-ar-theme .form-column.col-md-12,
+body.elite-ar-theme .form-column.col-lg-12 {
+  flex: 0 0 100% !important;
+  max-width: 100% !important;
+}
+
+body.elite-ar-theme .form-column.col-sm-6,
+body.elite-ar-theme .form-column.col-md-6,
+body.elite-ar-theme .form-column.col-lg-6 {
+  flex: 0 0 50% !important;
+  max-width: 50% !important;
+}
+
+body.elite-ar-theme .form-column.col-sm-4,
+body.elite-ar-theme .form-column.col-md-4,
+body.elite-ar-theme .form-column.col-lg-4 {
+  flex: 0 0 33.333333% !important;
+  max-width: 33.333333% !important;
+}
+
+body.elite-ar-theme .form-column.col-sm-3,
+body.elite-ar-theme .form-column.col-md-3,
+body.elite-ar-theme .form-column.col-lg-3 {
+  flex: 0 0 25% !important;
+  max-width: 25% !important;
+}
+
+body.elite-ar-theme .form-section .section-body .row,
+body.elite-ar-theme .form-section .section-body [class*="row"] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+
+body.elite-ar-theme .elite-sales-rail {
+  display: none !important;
 }
 
 
