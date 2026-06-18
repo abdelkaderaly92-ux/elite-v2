@@ -178,29 +178,6 @@ body.elite-ar-theme .btn-secondary {
   color: #344054;
 }
 
-body.elite-ar-theme .form-control,
-body.elite-ar-theme .input-with-feedback,
-body.elite-ar-theme .awesomplete input,
-body.elite-ar-theme .ql-container {
-  background: #fff;
-  border: 1px solid var(--elite-border);
-  border-radius: 7px;
-  color: var(--elite-ink);
-  font-family: var(--font-stack);
-}
-
-body.elite-ar-theme .form-section,
-body.elite-ar-theme .section-body,
-body.elite-ar-theme .form-column {
-  border-color: var(--elite-border);
-}
-
-body.elite-ar-theme .form-control:focus,
-body.elite-ar-theme .input-with-feedback:focus {
-  border-color: var(--elite-primary);
-  box-shadow: 0 0 0 3px rgba(23, 79, 166, 0.14);
-}
-
 body.elite-ar-theme .control-label,
 body.elite-ar-theme .form-section .section-head {
   color: #344054;
@@ -244,16 +221,6 @@ body.elite-ar-theme .filter-label,
 body.elite-ar-theme .field-label {
   color: var(--elite-muted);
   font-weight: 700;
-}
-
-body.elite-ar-theme .report-filters,
-body.elite-ar-theme .filter-section,
-body.elite-ar-theme .page-form,
-body.elite-ar-theme .filter-area {
-  background: #fff;
-  border: 1px solid var(--elite-border);
-  border-radius: var(--elite-radius);
-  padding: 10px;
 }
 
 body.elite-ar-theme .chart-container,
@@ -651,44 +618,10 @@ body.elite-ar-theme .page-head .page-title .title-text {
   font-weight: 800;
 }
 
-body.elite-ar-theme .form-layout,
-body.elite-ar-theme .form-page {
-  background: transparent;
-}
-
-body.elite-ar-theme .form-section:not(:last-child) {
-  margin-bottom: 12px;
-}
-
-body.elite-ar-theme .list-sidebar,
-body.elite-ar-theme .form-sidebar {
-  background: #fbfdff;
-  border: 1px solid var(--elite-border);
-  border-radius: var(--elite-radius);
-}
-
 body.elite-ar-theme .dt-cell__content,
 body.elite-ar-theme .list-subject,
 body.elite-ar-theme .list-row-col {
   font-weight: 700;
-}
-
-body.elite-ar-theme .page-head {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  backdrop-filter: blur(12px);
-  background: rgba(245, 247, 251, .86);
-}
-
-body.elite-ar-theme .form-dashboard {
-  margin-bottom: 12px;
-}
-
-body.elite-ar-theme .list-view-container,
-body.elite-ar-theme .report-wrapper,
-body.elite-ar-theme .query-report {
-  overflow: hidden;
 }
 
 body.elite-ar-theme .list-row-container,
@@ -700,24 +633,9 @@ body.elite-ar-theme .list-row-container {
   margin: 4px 0;
 }
 
-body.elite-ar-theme .result,
-body.elite-ar-theme .list-paging-area,
-body.elite-ar-theme .report-footer {
-  background: #fff;
-  border: 1px solid var(--elite-border);
-  border-radius: var(--elite-radius);
-}
-
 body.elite-ar-theme .navbar .container,
 body.elite-ar-theme .navbar .container-fluid {
   gap: 12px;
-}
-
-body.elite-ar-theme .form-sidebar .sidebar-section,
-body.elite-ar-theme .list-sidebar .sidebar-section {
-  border-bottom: 1px solid var(--elite-border);
-  padding-bottom: 10px;
-  margin-bottom: 10px;
 }
 
 body.elite-ar-theme .empty-state {
@@ -988,11 +906,19 @@ body.elite-ar-theme {
   }
 }
 
-/* Live ERPNext form guard.
-   Keep Sales Invoice and Quotation on the native Frappe layout; previews use their own files. */
-body.elite-ar-theme .navbar::after {
+/* Native ERPNext layout guard.
+   Keep the Elite identity, but never reshape Frappe forms, lists, filters, or grids. */
+body.elite-ar-theme .navbar::after,
+body.elite-ar-theme .elite-sales-rail {
   content: none !important;
   display: none !important;
+}
+
+body.elite-ar-theme .page-head {
+  position: relative !important;
+  top: auto !important;
+  padding-top: 0 !important;
+  backdrop-filter: none !important;
 }
 
 body.elite-ar-theme .page-actions,
@@ -1004,72 +930,6 @@ body.elite-ar-theme .custom-actions {
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
-}
-
-body.elite-ar-theme .form-layout {
-  display: block !important;
-  gap: 0 !important;
-}
-
-body.elite-ar-theme .form-page,
-body.elite-ar-theme .layout-main-section-wrapper,
-body.elite-ar-theme .layout-main-section {
-  display: block !important;
-  grid-template-columns: none !important;
-}
-
-body.elite-ar-theme .form-layout .form-section,
-body.elite-ar-theme .section-body,
-body.elite-ar-theme .form-column,
-body.elite-ar-theme .frappe-control,
-body.elite-ar-theme .form-group {
-  float: none !important;
-  display: block !important;
-  width: auto !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
-  grid-column: auto !important;
-  grid-row: auto !important;
-  order: initial !important;
-  position: relative !important;
-}
-
-body.elite-ar-theme .form-column.col-sm-12,
-body.elite-ar-theme .form-column.col-md-12,
-body.elite-ar-theme .form-column.col-lg-12 {
-  flex: 0 0 100% !important;
-  max-width: 100% !important;
-}
-
-body.elite-ar-theme .form-column.col-sm-6,
-body.elite-ar-theme .form-column.col-md-6,
-body.elite-ar-theme .form-column.col-lg-6 {
-  flex: 0 0 50% !important;
-  max-width: 50% !important;
-}
-
-body.elite-ar-theme .form-column.col-sm-4,
-body.elite-ar-theme .form-column.col-md-4,
-body.elite-ar-theme .form-column.col-lg-4 {
-  flex: 0 0 33.333333% !important;
-  max-width: 33.333333% !important;
-}
-
-body.elite-ar-theme .form-column.col-sm-3,
-body.elite-ar-theme .form-column.col-md-3,
-body.elite-ar-theme .form-column.col-lg-3 {
-  flex: 0 0 25% !important;
-  max-width: 25% !important;
-}
-
-body.elite-ar-theme .form-section .section-body .row,
-body.elite-ar-theme .form-section .section-body [class*="row"] {
-  display: flex !important;
-  flex-wrap: wrap !important;
-}
-
-body.elite-ar-theme .elite-sales-rail {
-  display: none !important;
 }
 
 

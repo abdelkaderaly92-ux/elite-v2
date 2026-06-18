@@ -83,7 +83,7 @@ frappe.pages["elite-theme-settings"].on_page_load = function (wrapper) {
             </div>
             <div class="elite-preview-metric">
               <span>${__("Monthly Revenue")}</span>
-              <strong>128,450 ر.س</strong>
+              <strong>128,450 ﷼</strong>
             </div>
             <div class="elite-preview-bars">
               <i style="height: 42%"></i><i style="height: 76%"></i><i style="height: 58%"></i><i style="height: 92%"></i><i style="height: 64%"></i>
