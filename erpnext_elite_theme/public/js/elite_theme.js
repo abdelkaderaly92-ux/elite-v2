@@ -40,8 +40,7 @@
   }
 
   function buildPreviewHtml(doc) {
-    var isQuotation = doc.doctype === "Quotation";
-    var title = isQuotation ? "عرض سعر" : "فاتورة مبيعات";
+    var title = doc.doctype === "Quotation" ? "عرض سعر" : "فاتورة مبيعات";
     var party = doc.customer_name || doc.customer || doc.party_name || doc.party || "";
     var items = (doc.items || []).map(function (item, index) {
       return [
@@ -192,3 +191,4 @@
     });
   }
 })();
+
