@@ -1,8 +1,0 @@
-recursive-include erpnext_elite_theme/public *
-recursive-include erpnext_elite_theme/page *
-recursive-include erpnext_elite_theme/doctype *
-recursive-include erpnext_elite_theme/templates *
-include README.md
-include erpnext_elite_theme/modules.txt
-include erpnext_elite_theme/patches.txt
-
