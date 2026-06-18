@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elite Sales Invoice Studio</title>
+  <link rel="stylesheet" href="../erpnext_elite_theme/public/css/elite_theme.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f6f9fd; color: var(--elite-ink); font-family: var(--font-stack); }
+    button, input { font: inherit; }
+    .invoice-shell { min-height: 100vh; display: grid; grid-template-columns: 1fr 186px; }
+    .main { min-width: 0; }
+    .topnav { height: 66px; display: grid; grid-template-columns: 260px 1fr 190px; align-items: center; gap: 16px; padding: 0 24px; border-bottom: 1px solid #dde7f4; background: #fff; position: sticky; top: 0; z-index: 5; }
+    .logo { display: flex; align-items: center; gap: 10px; color: var(--elite-primary); font-weight: 800; }
+    .logo img { width: 190px; max-height: 54px; object-fit: contain; }
+    .navlinks { display: flex; justify-content: center; gap: 26px; color: #526176; font-weight: 800; }
+    .navlinks .active { color: var(--elite-primary); border-bottom: 3px solid var(--elite-primary); padding-bottom: 21px; }
+    .search { border: 1px solid #d8e4f2; border-radius: 7px; padding: 9px 12px; color: #7a8494; background: #fbfdff; }
+    .toolbar { min-height: 68px; display: flex; justify-content: space-between; gap: 14px; align-items: center; padding: 0 24px; border-bottom: 1px solid #dde7f4; background: rgba(255,255,255,.88); backdrop-filter: blur(12px); position: sticky; top: 66px; z-index: 4; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn { min-height: 38px; border: 1px solid #d8e4f2; border-radius: 7px; background: #fff; color: #344054; font-weight: 800; padding: 0 16px; }
+    .btn.primary { background: var(--elite-primary); color: #fff; border-color: var(--elite-primary); box-shadow: 0 10px 20px rgba(23,79,166,.18); }
+    .doc-title { display: flex; align-items: center; gap: 12px; color: #132238; }
+    .doc-title h1 { margin: 0; font-size: 24px; font-weight: 800; }
+    .status { border-radius: 999px; padding: 5px 12px; background: #eaf7ef; color: #168447; font-weight: 800; font-size: 12px; }
+    .content { display: grid; grid-template-columns: 330px 1fr 210px; gap: 14px; padding: 18px 24px 28px; }
+    .card { background: #fff; border: 1px solid #d8e4f2; border-radius: 8px; box-shadow: 0 14px 36px rgba(20,58,111,.08); padding: 16px; }
+    .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; color: var(--elite-primary-dark); font-weight: 800; }
+    .left-stack, .center-stack, .rail { display: grid; gap: 14px; align-content: start; }
+    .summary-line { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e5edf7; color: #526176; font-weight: 800; }
+    .summary-line strong.red { color: #dc2626; }
+    .total { padding: 14px; border-radius: 8px; background: #eef5ff; color: var(--elite-primary); font-size: 18px; font-weight: 800; margin: 10px 0; }
+    .collect strong { display: block; color: var(--elite-primary); font-size: 24px; margin: 6px 0 14px; }
+    .collect-row { display: grid; grid-template-columns: 70px 1fr; border: 1px solid #d8e4f2; border-radius: 7px; overflow: hidden; margin-bottom: 10px; }
+    .collect-row span, .collect-row input { border: 0; padding: 10px; background: #fbfdff; color: #526176; font-weight: 800; }
+    .activity { display: grid; gap: 12px; color: #526176; font-size: 13px; font-weight: 800; }
+    .activity div { display: grid; grid-template-columns: 12px 1fr; gap: 10px; align-items: start; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--elite-primary); margin-top: 5px; }
+    .info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .field { display: grid; gap: 8px; }
+    .field label { color: #526176; font-size: 13px; font-weight: 800; }
+    .field .input { min-height: 38px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #d8e4f2; border-radius: 7px; background: #fbfdff; color: #263a54; padding: 0 12px; font-weight: 800; }
+    .table-card { padding: 0; overflow: hidden; }
+    .table-head { display: flex; justify-content: space-between; align-items: center; padding: 16px; }
+    .table-tools { display: flex; gap: 8px; }
+    .table-tools input { border: 1px solid #d8e4f2; border-radius: 7px; padding: 8px 12px; background: #fbfdff; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 13px 14px; border-top: 1px solid #e5edf7; text-align: right; font-weight: 800; }
+    th { background: #f3f7fc; color: #526176; font-size: 12px; }
+    td { color: #263a54; }
+    .mini-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .mini-card { min-height: 150px; }
+    .file-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; color: #526176; font-weight: 800; border-bottom: 1px solid #e5edf7; }
+    .note-input { min-height: 54px; display: flex; align-items: center; border: 1px solid #d8e4f2; border-radius: 7px; color: #9aa7b8; padding: 0 12px; }
+    .section-rail { padding: 16px 10px; border-right: 1px solid #dde7f4; background: #fff; }
+    .section-rail h2 { margin: 0 10px 18px; color: #132238; font-size: 20px; }
+    .rail-link { min-height: 44px; display: flex; align-items: center; border-inline-start: 2px solid transparent; border-radius: 7px; padding: 0 12px; color: #526176; font-weight: 800; }
+    .rail-link.active { background: #eef5ff; border-inline-start-color: var(--elite-primary); color: var(--elite-primary); }
+    .blue-side { background: linear-gradient(180deg, #073878, #0759ba); color: #fff; padding: 18px 14px; }
+    .blue-side img { width: 156px; display: block; margin: 0 auto 22px; background: #fff; border-radius: 8px; padding: 8px; }
+    .blue-link { min-height: 48px; display: flex; align-items: center; border-radius: 8px; padding: 0 14px; color: rgba(255,255,255,.86); font-weight: 800; }
+    .blue-link.active { background: rgba(255,255,255,.12); color: #fff; }
+    @media (max-width: 1200px) { .invoice-shell, .content { grid-template-columns: 1fr; } .blue-side, .section-rail { display: none; } .mini-grid, .info-grid { grid-template-columns: 1fr; } .topnav { grid-template-columns: 1fr; height: auto; padding: 12px; } .navlinks { overflow-x: auto; justify-content: start; } .toolbar { top: 0; } }
+  </style>
+</head>
+<body>
+  <div class="invoice-shell">
+    <main class="main">
+      <header class="topnav">
+        <div class="logo"><img src="elite-control-logo.png" alt="Elite Control"></div>
+        <nav class="navlinks"><span>الرئيسية</span><span class="active">المبيعات</span><span>المشتريات</span><span>المخزون</span><span>المحاسبة</span><span>الموارد البشرية</span><span>التقارير</span><span>إعدادات</span></nav>
+        <input class="search" value="Crtl + K / بحث">
+      </header>
+      <section class="toolbar">
+        <div class="actions"><button class="btn primary">حفظ</button><button class="btn">إرسال</button><button class="btn">طباعة</button><button class="btn">تحصيل</button><button class="btn">...</button></div>
+        <div class="doc-title"><span class="status">مسودة</span><h1>INV-2024-0045</h1></div>
+      </section>
+      <section class="content">
+        <aside class="left-stack">
+          <div class="card">
+            <div class="card-head">ملخص مالي</div>
+            <div class="summary-line"><span>الإجمالي الفرعي</span><strong>48,500.00</strong></div>
+            <div class="summary-line"><span>الخصم</span><strong class="red">-2,425.00</strong></div>
+            <div class="summary-line"><span>الضرائب (15%)</span><strong>6,909.75</strong></div>
+            <div class="total">الإجمالي الكلي<br>52,984.75 ﷼</div>
+            <div class="summary-line"><span>المدفوع</span><strong>0.00</strong></div>
+            <div class="summary-line"><span>المستحق</span><strong class="red">52,984.75 ﷼</strong></div>
+          </div>
+          <div class="card">
+            <div class="card-head">النشاط</div>
+            <div class="activity"><div><i class="dot" style="background:#22c55e"></i><span>تم إنشاء الفاتورة<br>أنت - منذ دقيقة</span></div><div><i class="dot"></i><span>تم تحديث الفاتورة<br>أنت - منذ دقيقة</span></div><div><i class="dot" style="background:#94a3b8"></i><span>مسودة<br>أنت - منذ دقيقة</span></div></div>
+          </div>
+          <div class="card collect">
+            <div class="card-head">تحصيل الفاتورة</div>
+            <span>المبلغ المستحق</span><strong>52,984.75 ﷼</strong>
+            <div class="collect-row"><span>﷼</span><input value="52,984.75"></div>
+            <button class="btn primary" style="width:100%">تسجيل تحصيل</button>
+          </div>
+        </aside>
+        <section class="center-stack">
+          <div class="card">
+            <div class="card-head">المعلومات الأساسية</div>
+            <div class="info-grid">
+              <div class="field"><label>رقم الفاتورة *</label><div class="input">INV-2024-0045</div></div>
+              <div class="field"><label>العميل *</label><div class="input">شركة المشرق للتجارة</div></div>
+              <div class="field"><label>تاريخ الفاتورة *</label><div class="input">2024-05-26</div></div>
+              <div class="field"><label>تاريخ الاستحقاق</label><div class="input">2024-06-10</div></div>
+              <div class="field"><label>شركة *</label><div class="input">إليت كنترول للحلول المتكاملة</div></div>
+              <div class="field"><label>عملة الفاتورة</label><div class="input">﷼ - ريال سعودي</div></div>
+            </div>
+          </div>
+          <div class="card table-card">
+            <div class="table-head"><div class="card-head" style="margin:0">بنود الفاتورة</div><div class="table-tools"><input placeholder="البحث في البنود..."><button class="btn">تصفية</button></div></div>
+            <table>
+              <thead><tr><th>#</th><th>المنتج / الخدمة</th><th>الوصف</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th></tr></thead>
+              <tbody><tr><td>1</td><td>SRV-001</td><td>تركيب نظام ERPNext</td><td>1</td><td>25,000.00</td><td>25,000.00</td></tr><tr><td>2</td><td>CONS-002</td><td>استشارات تقنية</td><td>10</td><td>1,500.00</td><td>15,000.00</td></tr><tr><td>3</td><td>SUP-003</td><td>دعم فني - 3 أشهر</td><td>1</td><td>8,500.00</td><td>8,500.00</td></tr></tbody>
+            </table>
+            <div style="padding:14px"><button class="btn">+ إضافة بند</button></div>
+          </div>
+          <div class="mini-grid">
+            <div class="card mini-card"><div class="card-head">الضرائب والرسوم</div><p>ضريبة القيمة المضافة (15%)</p><strong>6,909.75 ﷼</strong></div>
+            <div class="card mini-card"><div class="card-head">شروط الدفع</div><p>NET 15</p><p>تاريخ الاستحقاق 2024-06-10</p></div>
+            <div class="card mini-card"><div class="card-head">المرفقات</div><div class="file-row"><span>عقد المشروع.pdf</span><span>245 KB</span></div><div class="file-row"><span>عرض الأسعار.xlsx</span><span>18 KB</span></div></div>
+          </div>
+          <div class="card"><div class="card-head">الملاحظات</div><div class="note-input">اكتب ملاحظاتك هنا...</div></div>
+        </section>
+        <aside class="section-rail">
+          <h2>فاتورة مبيعات</h2>
+          <div class="rail-link active">الفاتورة</div><div class="rail-link">المعلومات الأساسية</div><div class="rail-link">بنود الفاتورة</div><div class="rail-link">الضرائب والرسوم</div><div class="rail-link">شروط الدفع</div><div class="rail-link">المرفقات</div><div class="rail-link">الملاحظات</div><div class="rail-link">سجل النشاط</div>
+        </aside>
+      </section>
+    </main>
+    <aside class="blue-side"><img src="elite-control-logo.png" alt="Elite Control"><div class="blue-link active">المبيعات</div><div class="blue-link">لوحة المعلومات</div><div class="blue-link">فرص البيع</div><div class="blue-link">عروض الأسعار</div><div class="blue-link">أوامر البيع</div><div class="blue-link">فواتير البيع</div><div class="blue-link">العملاء</div><div class="blue-link">التقارير</div><div class="blue-link">الإعدادات</div></aside>
+  </div>
+</body>
+</html>
