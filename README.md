@@ -8,9 +8,6 @@
 - ألوان مبنية على شعار Elite Control.
 - صفحة دخول احترافية تستخدم شعار الموقع إن وجد، أو شعار Elite المرفق كخيار احتياطي.
 - لوحة تحكم للثيم من داخل Desk عبر `/app/elite-theme-settings`.
-- استبدال ظهور `SAR` داخل الواجهة برمز الريال `﷼`.
-- زر إنشاء عائم وCommand Palette عبر `Ctrl + K`.
-- تحويل الشكل التقليدي تدريجيا: Forms ككروت، Action Bar ثابت، جداول كمساحة عمل، Empty States حديثة، وتجربة موبايل أقرب للتطبيق.
 - تحسين Desk وWorkspace وList View وForm View.
 - تغطية أوسع للتقارير، Query Report، الفلاتر، الجداول، المخططات، الطباعة، Kanban، Calendar، وGantt.
 - أزرار وإجراءات واضحة لتسهيل الاستخدام اليومي.
@@ -103,24 +100,3 @@ app_include_js = "/assets/erpnext_elite_theme/js/elite_theme.js"
 `preview/index.html`
 
 لرؤية شكل القالب قبل تركيبه على ERPNext.
-
-ولمعاينة صفحة الدخول الجديدة:
-
-`preview/login-preview.html`
-
-ولمعاينة شاشة عرض السعر الجديدة:
-
-`preview/quotation-preview.html`
-
-ولمعاينة شاشة الفاتورة الجديدة:
-
-`preview/invoice-preview.html`
-
-## معاينة الطباعة قبل الحفظ
-
-يضيف الثيم زر `معاينة قبل الحفظ` داخل:
-
-- Quotation
-- Sales Invoice
-
-الزر يفتح معاينة طباعة من بيانات النموذج الحالية، حتى لو المستند لا يزال مسودة ولم يتم حفظه بعد.

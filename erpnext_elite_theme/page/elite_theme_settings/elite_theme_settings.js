@@ -48,16 +48,6 @@ frappe.pages["elite-theme-settings"].on_page_load = function (wrapper) {
 
         <div class="elite-settings-grid">
           <section class="elite-settings-card">
-            <h3>${__("Ready Presets")}</h3>
-            <div class="elite-preset-grid">
-              <button class="elite-preset" data-preset="corporate">${__("Corporate Blue")}</button>
-              <button class="elite-preset" data-preset="executive">${__("Dark Executive")}</button>
-              <button class="elite-preset" data-preset="minimal">${__("Light Minimal")}</button>
-            </div>
-            <p class="elite-settings-note">${__("Choose a professional base style, then fine-tune colors and logo.")}</p>
-          </section>
-
-          <section class="elite-settings-card">
             <h3>${__("Brand Colors")}</h3>
             <label>${__("Primary Color")}<input data-key="primary" type="color" value="${settings.primary}"></label>
             <label>${__("Dark Primary")}<input data-key="primary_dark" type="color" value="${settings.primary_dark}"></label>
@@ -83,26 +73,10 @@ frappe.pages["elite-theme-settings"].on_page_load = function (wrapper) {
             </div>
             <div class="elite-preview-metric">
               <span>${__("Monthly Revenue")}</span>
-              <strong>128,450 ﷼</strong>
+              <strong>128,450 ر.س</strong>
             </div>
             <div class="elite-preview-bars">
               <i style="height: 42%"></i><i style="height: 76%"></i><i style="height: 58%"></i><i style="height: 92%"></i><i style="height: 64%"></i>
-            </div>
-          </section>
-
-          <section class="elite-settings-card elite-login-mini">
-            <h3>${__("Login Preview")}</h3>
-            <div class="elite-login-mini-shot">
-              <div class="elite-login-mini-brand">
-                <img class="elite-settings-logo-preview" src="${settings.logo}" alt="Elite Control">
-                <strong>Elite Control</strong>
-              </div>
-              <div class="elite-login-mini-form">
-                <span>${__("Welcome Back")}</span>
-                <i></i>
-                <i></i>
-                <b>${__("Login")}</b>
-              </div>
             </div>
           </section>
         </div>
@@ -112,16 +86,6 @@ frappe.pages["elite-theme-settings"].on_page_load = function (wrapper) {
     page.main.find("[data-key]").on("change input", function () {
       settings[this.dataset.key] = this.value;
       applyTheme();
-    });
-
-    page.main.find(".elite-preset").on("click", function () {
-      const presets = {
-        corporate: { primary: "#174fa6", primary_dark: "#0b3b84", secondary: "#0f63d6", bg: "#f5f7fb" },
-        executive: { primary: "#0b3b84", primary_dark: "#061d42", secondary: "#64748b", bg: "#eef3fa" },
-        minimal: { primary: "#1d4ed8", primary_dark: "#1e3a8a", secondary: "#6f747b", bg: "#ffffff" }
-      };
-      settings = { ...settings, ...(presets[this.dataset.preset] || presets.corporate) };
-      render();
     });
 
     page.main.find(".elite-save").on("click", saveSiteSettings);

@@ -1,7 +1,4 @@
 (function () {
-  var attempts = 0;
-  var maxAttempts = 30;
-
   function isLoginRoute() {
     var path = window.location.pathname || "";
     return path === "/login" || path.indexOf("/login") > -1;
@@ -34,69 +31,22 @@
     });
   }
 
-  function findLoginContent() {
-    var loginContent = document.querySelector(".login-content");
-    if (loginContent) return loginContent;
-
-    var loginPanel = document.querySelector(".for-login");
-    if (loginPanel && loginPanel.closest(".page-card")) {
-      return loginPanel.closest(".page-card");
-    }
-
-    return loginPanel || document.querySelector("form[action*='login']");
-  }
-
   function buildLoginBrand() {
-    if (!isLoginRoute() || document.querySelector(".elite-login-shell")) return true;
+    if (!isLoginRoute() || document.querySelector(".elite-login-brand")) return;
 
-    var content = findLoginContent();
-    if (!content || content === document.body || content === document.documentElement) {
-      return false;
-    }
-
-    document.documentElement.setAttribute("dir", "rtl");
     document.body.classList.add("elite-login-page");
     applySavedTokens();
 
-    var parent = content.parentNode;
-    if (!parent) return false;
-
-    var shell = document.createElement("div");
-    shell.className = "elite-login-shell";
-    shell.innerHTML = [
-      '<section class="elite-login-showcase">',
-      '  <div class="elite-circuit-grid"></div>',
-      '  <div class="elite-login-brand">',
-      '    <img src="' + getPreferredLogo() + '" alt="Elite Control">',
-      '    <div class="elite-login-title">ELITE CONTROL</div>',
-      '    <div class="elite-login-subtitle">Integrated Solutions . Lasting Partnerships</div>',
-      '  </div>',
-      '  <div class="elite-login-promise">حلول متكاملة<br>لعلاقات تدوم</div>',
-      '  <div class="elite-login-features">',
-      '    <span>آمن وموثوق</span>',
-      '    <span>تقارير ذكية</span>',
-      '    <span>إدارة متكاملة</span>',
-      '  </div>',
-      '</section>',
-      '<section class="elite-login-form-panel"></section>'
+    var target = document.querySelector(".login-content") || document.querySelector(".page-card") || document.body;
+    var brand = document.createElement("div");
+    brand.className = "elite-login-brand";
+    brand.innerHTML = [
+      '<img src="' + getPreferredLogo() + '" alt="Elite Control">',
+      '<div class="elite-login-title">Elite Control</div>',
+      '<div class="elite-login-subtitle">Integrated Solutions, Lasting Partnerships</div>'
     ].join("");
-
-    parent.insertBefore(shell, content);
-    shell.querySelector(".elite-login-form-panel").appendChild(content);
-    return true;
+    target.insertBefore(brand, target.firstChild);
   }
 
-  function tryBuildLoginBrand() {
-    if (buildLoginBrand()) return;
-    attempts += 1;
-    if (attempts < maxAttempts) {
-      window.setTimeout(tryBuildLoginBrand, 150);
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", tryBuildLoginBrand);
-
-  if (document.readyState === "interactive" || document.readyState === "complete") {
-    tryBuildLoginBrand();
-  }
+  document.addEventListener("DOMContentLoaded", buildLoginBrand);
 })();

@@ -1,4 +1,13 @@
 (function () {
+  var quickCreateItems = [
+    ["عرض سعر", "Quotation"],
+    ["عميل جديد", "Customer"],
+    ["طلب مبيعات", "Sales Order"],
+    ["طلب شراء", "Purchase Order"],
+    ["فاتورة", "Sales Invoice"],
+    ["دفعة", "Payment Entry"]
+  ];
+
   function applySavedEliteTokens() {
     if (!window.localStorage) return;
     var root = document.documentElement;
@@ -14,36 +23,6 @@
     });
   }
 
-  function replaceSaudiCurrencySymbol(root) {
-    var scope = root || document.body;
-    if (!scope) return;
-
-    var walker = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT, {
-      acceptNode: function (node) {
-        if (!node.nodeValue || node.nodeValue.indexOf("SAR") === -1) return NodeFilter.FILTER_REJECT;
-        var parent = node.parentElement;
-        if (!parent || ["SCRIPT", "STYLE", "TEXTAREA", "INPUT"].indexOf(parent.tagName) > -1) {
-          return NodeFilter.FILTER_REJECT;
-        }
-        return NodeFilter.FILTER_ACCEPT;
-      }
-    });
-
-    var nodes = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach(function (node) {
-      node.nodeValue = node.nodeValue.replace(/\bSAR\b/g, "﷼");
-    });
-  }
-
-  function formatMoney(value, currency) {
-    var amount = Number(value || 0).toLocaleString("en-US", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-    return amount + " " + ((currency || "").toUpperCase() === "SAR" ? "﷼" : (currency || ""));
-  }
-
   function escapeHtml(value) {
     return String(value == null ? "" : value)
       .replace(/&/g, "&amp;")
@@ -52,62 +31,55 @@
       .replace(/"/g, "&quot;");
   }
 
-  function getEliteLogo() {
-    return (window.localStorage && localStorage.getItem("elite_theme_logo")) ||
-      "/assets/erpnext_elite_theme/images/elite-control-logo.png";
+  function money(value, currency) {
+    var amount = Number(value || 0).toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    return amount + " " + ((currency || "").toUpperCase() === "SAR" ? "﷼" : (currency || ""));
   }
 
-  function buildElitePrintPreview(doc) {
+  function buildPreviewHtml(doc) {
     var isQuotation = doc.doctype === "Quotation";
     var title = isQuotation ? "عرض سعر" : "فاتورة مبيعات";
-    var party = doc.customer_name || doc.party_name || doc.customer || doc.party || "عميل";
+    var party = doc.customer_name || doc.customer || doc.party_name || doc.party || "";
     var items = (doc.items || []).map(function (item, index) {
       return [
         "<tr>",
         "<td>", index + 1, "</td>",
         "<td><strong>", escapeHtml(item.item_name || item.item_code || ""), "</strong><small>", escapeHtml(item.description || ""), "</small></td>",
-        "<td>", escapeHtml(item.uom || ""), "</td>",
         "<td>", escapeHtml(item.qty || 0), "</td>",
-        "<td>", formatMoney(item.rate, doc.currency), "</td>",
-        "<td>", escapeHtml(item.discount_percentage || 0), "%</td>",
-        "<td>", formatMoney(item.amount, doc.currency), "</td>",
+        "<td>", money(item.rate, doc.currency), "</td>",
+        "<td>", money(item.amount, doc.currency), "</td>",
         "</tr>"
       ].join("");
     }).join("");
 
     if (!items) {
-      items = '<tr><td colspan="7" class="elite-empty-row">لا توجد أصناف بعد</td></tr>';
+      items = '<tr><td colspan="5" class="elite-empty-row">لا توجد بنود بعد</td></tr>';
     }
 
     return [
       '<div class="elite-print-preview">',
-      '  <header class="elite-print-header">',
-      '    <div><img src="', getEliteLogo(), '" alt="Elite Control"><p>Integrated Solutions . Lasting Partnerships</p></div>',
-      '    <div><h1>', title, '</h1><strong>', escapeHtml(doc.name || "مسودة جديدة"), '</strong><span>', escapeHtml(doc.transaction_date || doc.posting_date || ""), '</span></div>',
-      '  </header>',
-      '  <section class="elite-print-meta">',
-      '    <div><span>العميل</span><strong>', escapeHtml(party), '</strong></div>',
-      '    <div><span>الحالة</span><strong>', escapeHtml(doc.status || "مسودة"), '</strong></div>',
-      '    <div><span>العملة</span><strong>', (doc.currency === "SAR" ? "﷼" : escapeHtml(doc.currency || "")), '</strong></div>',
-      '    <div><span>صالح حتى</span><strong>', escapeHtml(doc.valid_till || doc.due_date || ""), '</strong></div>',
-      '  </section>',
-      '  <table class="elite-print-table">',
-      '    <thead><tr><th>#</th><th>الصنف / الخدمة</th><th>الوحدة</th><th>الكمية</th><th>السعر</th><th>الخصم</th><th>المبلغ</th></tr></thead>',
-      '    <tbody>', items, '</tbody>',
-      '  </table>',
-      '  <section class="elite-print-totals">',
-      '    <div><span>الإجمالي الفرعي</span><strong>', formatMoney(doc.total, doc.currency), '</strong></div>',
-      '    <div><span>الخصم</span><strong>', formatMoney(doc.discount_amount, doc.currency), '</strong></div>',
-      '    <div><span>الضرائب</span><strong>', formatMoney((doc.total_taxes_and_charges || 0), doc.currency), '</strong></div>',
-      '    <div class="grand"><span>الإجمالي الكلي</span><strong>', formatMoney(doc.grand_total, doc.currency), '</strong></div>',
-      '  </section>',
-      '  <section class="elite-print-terms"><h3>الشروط والأحكام</h3><div>', doc.terms || "الأسعار لا تشمل أي مصاريف إضافية ما لم يذكر خلاف ذلك.", '</div></section>',
+      '<header><div><h2>', title, '</h2><p>Elite Control</p></div><strong>', escapeHtml(doc.name || "مسودة جديدة"), '</strong></header>',
+      '<section class="elite-print-meta">',
+      '<div><span>العميل</span><strong>', escapeHtml(party), '</strong></div>',
+      '<div><span>التاريخ</span><strong>', escapeHtml(doc.transaction_date || doc.posting_date || ""), '</strong></div>',
+      '<div><span>العملة</span><strong>', escapeHtml((doc.currency || "").toUpperCase() === "SAR" ? "﷼" : doc.currency || ""), '</strong></div>',
+      '<div><span>الحالة</span><strong>', escapeHtml(doc.status || "مسودة"), '</strong></div>',
+      '</section>',
+      '<table><thead><tr><th>#</th><th>الصنف / الخدمة</th><th>الكمية</th><th>السعر</th><th>المبلغ</th></tr></thead><tbody>', items, '</tbody></table>',
+      '<section class="elite-print-totals">',
+      '<div><span>الإجمالي الفرعي</span><strong>', money(doc.total, doc.currency), '</strong></div>',
+      '<div><span>الضرائب</span><strong>', money(doc.total_taxes_and_charges, doc.currency), '</strong></div>',
+      '<div class="grand"><span>الإجمالي الكلي</span><strong>', money(doc.grand_total, doc.currency), '</strong></div>',
+      '</section>',
       '</div>'
     ].join("");
   }
 
-  function openElitePrintPreview(frm) {
-    var html = buildElitePrintPreview(frm.doc);
+  function openBeforeSavePreview(frm) {
+    var html = buildPreviewHtml(frm.doc || {});
     var dialog = new frappe.ui.Dialog({
       title: "معاينة الطباعة قبل الحفظ",
       size: "extra-large",
@@ -120,121 +92,62 @@
         frame.style.top = "0";
         document.body.appendChild(frame);
         frame.contentDocument.open();
-        frame.contentDocument.write("<!doctype html><html dir='rtl'><head><meta charset='utf-8'><title>Elite Print Preview</title><link rel='stylesheet' href='/assets/erpnext_elite_theme/css/elite_theme.css'></head><body class='elite-ar-theme elite-print-body'>" + html + "</body></html>");
+        frame.contentDocument.write("<!doctype html><html dir='rtl'><head><meta charset='utf-8'><title>Elite Preview</title><link rel='stylesheet' href='/assets/erpnext_elite_theme/css/elite_theme.css'></head><body class='elite-ar-theme elite-print-body'>" + html + "</body></html>");
         frame.contentDocument.close();
-        setTimeout(function () {
+        window.setTimeout(function () {
           frame.contentWindow.focus();
           frame.contentWindow.print();
-          setTimeout(function () { frame.remove(); }, 600);
-        }, 300);
+          window.setTimeout(function () { frame.remove(); }, 600);
+        }, 250);
       }
     });
     dialog.fields_dict.preview.$wrapper.html(html);
     dialog.show();
   }
 
-  function installEliteSalesStudio() {
-    if (!window.frappe || !frappe.ui || !frappe.ui.form) return;
-    if (window.__eliteSalesStudioInstalled) return;
-    window.__eliteSalesStudioInstalled = true;
+  function installPrintPreviewButtons() {
+    if (!window.frappe || !frappe.ui || !frappe.ui.form || window.__elitePrintPreviewInstalled) return;
+    window.__elitePrintPreviewInstalled = true;
 
     ["Quotation", "Sales Invoice"].forEach(function (doctype) {
       frappe.ui.form.on(doctype, {
         refresh: function (frm) {
-          document.body.classList.remove("elite-sales-studio");
-          document.body.classList.remove("elite-sales-invoice");
-          removeEliteSalesRail();
+          if (frm.__elite_preview_button_added) return;
+          frm.__elite_preview_button_added = true;
           frm.add_custom_button("معاينة قبل الحفظ", function () {
-            openElitePrintPreview(frm);
-          }).addClass("btn-primary");
+            openBeforeSavePreview(frm);
+          });
         }
       });
     });
   }
 
-  function removeEliteSalesRail() {
-    document.querySelectorAll(".elite-sales-rail").forEach(function (rail) {
-      rail.remove();
-    });
-  }
+  function ensureQuickCreate() {
+    if (!window.frappe || document.querySelector(".elite-quick-create")) return;
 
-  function ensureEliteSalesRail(frm) {
-    var existing = document.querySelector(".elite-sales-rail");
-    if (existing) existing.remove();
-
-    var label = frm.doc.doctype === "Sales Invoice" ? "الفاتورة" : "عرض السعر";
-    var rail = document.createElement("aside");
-    rail.className = "elite-sales-rail";
-    rail.innerHTML = [
-      '<div class="elite-sales-rail-title">', label, '</div>',
-      '<a class="active">المعلومات الأساسية</a>',
-      '<a>بنود ', label, '</a>',
-      '<a>الضرائب والرسوم</a>',
-      '<a>شروط الدفع</a>',
-      '<a>المرفقات</a>',
-      '<a>الملاحظات</a>',
-      '<a>سجل النشاط</a>'
-    ].join("");
-
-    var main = document.querySelector(".layout-main-section-wrapper") || document.querySelector(".layout-main-section") || document.querySelector(".page-body");
-    if (main && main.parentElement) {
-      main.parentElement.appendChild(rail);
-    }
-  }
-
-  function ensureEliteCommandPalette() {
-    if (document.querySelector(".elite-command-palette")) return;
-
-    var palette = document.createElement("div");
-    palette.className = "elite-command-palette";
-    palette.innerHTML = [
-      '<div class="elite-command-panel">',
-      '  <input class="elite-command-input" placeholder="ابحث أو أنشئ بسرعة... Ctrl + K">',
-      '  <button data-route="List/Sales Invoice/List">فاتورة جديدة</button>',
-      '  <button data-route="List/Customer/List">عميل جديد</button>',
-      '  <button data-route="query-report/General Ledger">تقرير الأستاذ العام</button>',
-      '  <button data-route="Workspaces/Accounts">لوحة الحسابات</button>',
+    var wrap = document.createElement("div");
+    wrap.className = "elite-quick-create";
+    wrap.innerHTML = [
+      '<button class="elite-quick-main" type="button" title="إضافة سريعة">+</button>',
+      '<div class="elite-quick-menu">',
+      quickCreateItems.map(function (item) {
+        return '<button type="button" data-doctype="' + item[1] + '">' + item[0] + '</button>';
+      }).join(""),
       '</div>'
     ].join("");
 
-    palette.addEventListener("click", function (event) {
-      if (event.target === palette) palette.classList.remove("open");
-      if (event.target.dataset && event.target.dataset.route && window.frappe) {
-        frappe.set_route(event.target.dataset.route.split("/"));
-        palette.classList.remove("open");
-      }
+    wrap.querySelector(".elite-quick-main").addEventListener("click", function () {
+      wrap.classList.toggle("open");
     });
 
-    document.body.appendChild(palette);
-  }
-
-  function ensureEliteFloatingCreate() {
-    if (document.querySelector(".elite-floating-create")) return;
-
-    var button = document.createElement("button");
-    button.className = "elite-floating-create";
-    button.type = "button";
-    button.title = "إنشاء سريع";
-    button.textContent = "+";
-    button.addEventListener("click", function () {
-      var palette = document.querySelector(".elite-command-palette");
-      if (palette) palette.classList.toggle("open");
+    wrap.querySelector(".elite-quick-menu").addEventListener("click", function (event) {
+      var doctype = event.target && event.target.getAttribute("data-doctype");
+      if (!doctype) return;
+      wrap.classList.remove("open");
+      frappe.new_doc(doctype);
     });
-    document.body.appendChild(button);
-  }
 
-  function bindEliteShortcuts() {
-    if (window.__eliteShortcutsBound) return;
-    window.__eliteShortcutsBound = true;
-    document.addEventListener("keydown", function (event) {
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
-        event.preventDefault();
-        ensureEliteCommandPalette();
-        document.querySelector(".elite-command-palette").classList.add("open");
-        var input = document.querySelector(".elite-command-input");
-        if (input) input.focus();
-      }
-    });
+    document.body.appendChild(wrap);
   }
 
   function applyArabicDeskPolish() {
@@ -249,15 +162,9 @@
 
     html.setAttribute("dir", "rtl");
     body.classList.add("elite-ar-theme");
-    body.classList.remove("elite-sales-studio");
-    body.classList.remove("elite-sales-invoice");
     applySavedEliteTokens();
-    replaceSaudiCurrencySymbol();
-    ensureEliteCommandPalette();
-    ensureEliteFloatingCreate();
-    bindEliteShortcuts();
-    installEliteSalesStudio();
-    removeEliteSalesRail();
+    installPrintPreviewButtons();
+    ensureQuickCreate();
 
     document.querySelectorAll(".navbar .dropdown-menu, .awesomplete > ul").forEach(function (menu) {
       menu.setAttribute("dir", "rtl");
@@ -279,22 +186,9 @@
 
   document.addEventListener("DOMContentLoaded", applyArabicDeskPolish);
 
-  var observer = new MutationObserver(function (mutations) {
-    mutations.forEach(function (mutation) {
-      mutation.addedNodes.forEach(function (node) {
-        if (node.nodeType === 1) replaceSaudiCurrencySymbol(node);
-      });
-    });
-  });
-
-  document.addEventListener("DOMContentLoaded", function () {
-    if (document.body) observer.observe(document.body, { childList: true, subtree: true });
-  });
-
   if (window.frappe && frappe.router) {
     frappe.router.on("change", function () {
       window.setTimeout(applyArabicDeskPolish, 60);
     });
   }
 })();
-

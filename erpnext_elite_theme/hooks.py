@@ -25,7 +25,4 @@ website_context = {
     "favicon": "/assets/erpnext_elite_theme/images/elite-control-logo.png"
 }
 
-after_install = "erpnext_elite_theme.install.ensure_elite_theme_records"
-after_migrate = "erpnext_elite_theme.install.ensure_elite_theme_records"
-
 
