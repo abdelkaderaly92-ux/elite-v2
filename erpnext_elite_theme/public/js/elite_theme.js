@@ -1,13 +1,4 @@
 (function () {
-  var quickCreateItems = [
-    ["عرض سعر", "Quotation"],
-    ["عميل جديد", "Customer"],
-    ["طلب مبيعات", "Sales Order"],
-    ["طلب شراء", "Purchase Order"],
-    ["فاتورة", "Sales Invoice"],
-    ["دفعة", "Payment Entry"]
-  ];
-
   function applySavedEliteTokens() {
     if (!window.localStorage) return;
     var root = document.documentElement;
@@ -121,34 +112,6 @@
     });
   }
 
-  function ensureQuickCreate() {
-    if (!window.frappe || document.querySelector(".elite-quick-create")) return;
-
-    var wrap = document.createElement("div");
-    wrap.className = "elite-quick-create";
-    wrap.innerHTML = [
-      '<button class="elite-quick-main" type="button" title="إضافة سريعة">+</button>',
-      '<div class="elite-quick-menu">',
-      quickCreateItems.map(function (item) {
-        return '<button type="button" data-doctype="' + item[1] + '">' + item[0] + '</button>';
-      }).join(""),
-      '</div>'
-    ].join("");
-
-    wrap.querySelector(".elite-quick-main").addEventListener("click", function () {
-      wrap.classList.toggle("open");
-    });
-
-    wrap.querySelector(".elite-quick-menu").addEventListener("click", function (event) {
-      var doctype = event.target && event.target.getAttribute("data-doctype");
-      if (!doctype) return;
-      wrap.classList.remove("open");
-      frappe.new_doc(doctype);
-    });
-
-    document.body.appendChild(wrap);
-  }
-
   function applyArabicDeskPolish() {
     var html = document.documentElement;
     var body = document.body;
@@ -163,7 +126,6 @@
     body.classList.add("elite-ar-theme");
     applySavedEliteTokens();
     installPrintPreviewButtons();
-    ensureQuickCreate();
 
     document.querySelectorAll(".navbar .dropdown-menu, .awesomplete > ul").forEach(function (menu) {
       menu.setAttribute("dir", "rtl");
